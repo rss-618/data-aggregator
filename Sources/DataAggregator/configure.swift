@@ -4,8 +4,11 @@ import FluentPostgresDriver
 import Leaf
 import Vapor
 
-// configures your application
 public func configure(_ app: Application) async throws {
+    if await BuildConfig.shared.isDebug {
+        app.leaf.cache.isEnabled = false
+    }
+    // figure out why?
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
