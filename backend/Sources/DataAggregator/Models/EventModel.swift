@@ -14,6 +14,10 @@ final class EventModel: Model, @unchecked Sendable {
     var value: String
 
     init() { }
+    
+    convenience init(_ event: Event) {
+        self.init(id: event.id, parameter: event.parameter, value: event.value)
+    }
 
     init(
         id: UUID? = nil,
@@ -25,7 +29,5 @@ final class EventModel: Model, @unchecked Sendable {
         self.value = value
     }
     
-    func toDTO() -> Event {
-        .init(id: id, parameter: parameter, value: value)
-    }
+    
 }

@@ -11,13 +11,10 @@ struct EventController: RouteCollection {
     
     // Link things
     func boot(routes: any RoutesBuilder) throws {
-        let todos = routes.grouped("events")
+        let events = routes.grouped("events")
         
-        if BuildConfig.shared.isDebug {
-            todos.get("all", use: getAll)
-        }
-
-        todos.post("add", use: add)
+        events.get("", use: getAll)
+        events.post("", use: add)
     }
     
     @Sendable
@@ -27,7 +24,7 @@ struct EventController: RouteCollection {
 
     @Sendable
     func add(_ req: Request) async throws -> HTTPStatus {
-        let eventModel = try req.content.decode(Event.self).toModel()
+        let eventModel: EventModel = .init(try req.content.decode(Event.self))
         return try await repository.add(eventModel,
                                         database: req.db)
     }

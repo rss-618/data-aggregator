@@ -6,7 +6,7 @@ open class EventRepository: @unchecked Sendable {
     public static let `default`: EventRepository = .init()
     
     func getAll(_ database: any Database) async throws -> [Event] {
-        try await EventModel.query(on: database).all().map { $0.toDTO() }
+        try await EventModel.query(on: database).all().map { .init($0) }
     }
 
     func add(_ event: EventModel, database: any Database) async throws -> HTTPStatus {
@@ -17,13 +17,4 @@ open class EventRepository: @unchecked Sendable {
         }
         return .ok
     }
-//
-//    func delete(req: Request) async throws -> HTTPStatus {
-//        guard let todo = try await Todo.find(req.parameters.get("todoID"), on: req.db) else {
-//            throw Abort(.notFound)
-//        }
-//
-//        try await todo.delete(on: req.db)
-//        return .noContent
-//    }
 }
