@@ -1,12 +1,12 @@
 import Fluent
 import Foundation
 
-final class EventModel: Model, @unchecked Sendable {
+final class EventModel: Model, @unchecked Sendable, Codable {
     static let schema = "event"
         
     @ID(key: .id)
     var id: UUID?
-
+    
     @Field(key: "parameter")
     var parameter: String
     
@@ -28,6 +28,5 @@ final class EventModel: Model, @unchecked Sendable {
         self.parameter = parameter
         self.value = value
     }
-    
     
 }

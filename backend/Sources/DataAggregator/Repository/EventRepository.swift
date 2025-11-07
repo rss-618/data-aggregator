@@ -3,18 +3,41 @@ import Vapor
 
 open class EventRepository: @unchecked Sendable {
     
+    enum EventRepositoryError: Error {
+        case invalidSearch
+    }
+    
     public static let `default`: EventRepository = .init()
     
     func getAll(_ database: any Database) async throws -> [Event] {
         try await EventModel.query(on: database).all().map { .init($0) }
     }
 
-    func add(_ event: EventModel, database: any Database) async throws -> HTTPStatus {
-        do {
-            try await event.save(on: database)
-        } catch {
-            return .badRequest
+    func add(_ request: AddEventRequest, database: any Database) async throws {
+        try await EventModel(parameter: request.parameter, value: request.value)
+            .save(on: database)
+    }
+    
+    func find(_ id: UUID, database: any Database) async throws -> EventModel? {
+        try await database
+            .query(EventModel.self)
+            .filter(\.$id == id)
+            .first()
+    }
+    
+    func update(_ content: UpdateEventRequest, database: any Database) async throws {
+        guard let foundItem = try await find(content.id, database: database) else {
+            throw Abort(.badRequest)
         }
-        return .ok
+        foundItem.parameter = content.parameter
+        foundItem.value = content.value
+        try await foundItem.update(on: database)
+    }
+    
+    func delete(_ id: UUID, database: any Database) async throws {
+        guard let item = try await find(id, database: database) else {
+            throw Abort(.badRequest)
+        }
+        try await item.delete(on: database)
     }
 }
