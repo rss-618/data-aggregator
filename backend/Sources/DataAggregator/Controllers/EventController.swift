@@ -9,7 +9,6 @@ struct EventController: RouteCollection {
         self.repository = repository
     }
     
-    // Link things
     func boot(routes: any RoutesBuilder) throws {
         let events = routes.grouped("events")
         
