@@ -12,7 +12,7 @@ struct Event: Content {
         self.value = value
     }
     
-    init(_ eventModel: EventModel) {
-        self.init(id: eventModel.id, parameter: eventModel.parameter, value: eventModel.value)
+    init(_ event: EventModel) {
+        self.init(id: event.id, parameter: event.parameter, value: event.value)
     }
 }

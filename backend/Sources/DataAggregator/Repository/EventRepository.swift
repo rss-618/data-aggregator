@@ -10,12 +10,23 @@ open class EventRepository: @unchecked Sendable {
     public static let `default`: EventRepository = .init()
     
     func getAll(_ database: any Database) async throws -> [Event] {
-        try await EventModel.query(on: database).all().map { .init($0) }
+        try await EventModel
+            .query(on: database)
+            .all()
+            .map { .init($0) }
     }
 
     func add(_ request: AddEventRequest, database: any Database) async throws {
-        try await EventModel(parameter: request.parameter, value: request.value)
-            .save(on: database)
+        // TODO: create service layer between repo and controller so i dont need to link repos directly
+        guard let project = try await ProjectRepository.default.find(request.projectId, database: database) else {
+            throw Abort(.badRequest)
+        }
+        try await EventModel(
+            project: project,
+            parameter: request.parameter,
+            value: request.value
+        )
+        .save(on: database)
     }
     
     func find(_ id: UUID, database: any Database) async throws -> EventModel? {

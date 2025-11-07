@@ -19,7 +19,11 @@ public func configure(_ app: Application) async throws {
         as: .psql
     )
 
-    app.migrations.add(CreateEvent(), to: .psql)
+    app.migrations.add(CreateDeviceTable(), to: .psql)
+    app.migrations.add(CreateUserTable(), to: .psql)
+    app.migrations.add(CreateProjectTable(), to: .psql)
+    app.migrations.add(CreateEventTable(), to: .psql)
+    app.migrations.add(CreateProjectUserPivotTable(), to: .psql)
     
     try await app.autoMigrate()
 

@@ -1,11 +1,7 @@
 import Vapor
 
 struct AddEventRequest: Content {
+    var projectId: UUID
     var parameter: String
     var value: String
-    
-    init(parameter: String, value: String) {
-        self.parameter = parameter
-        self.value = value
-    }
 }
