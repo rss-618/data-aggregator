@@ -28,29 +28,29 @@ public func configure(_ app: Application) async throws {
     try await app.autoMigrate()
 
     /* Setup CORS for external calls */
-    app.middleware.use(
-        CORSMiddleware(
-            configuration: .init(
-                allowedOrigin: .all,
-                allowedMethods: [.GET,
-                                 .POST,
-                                 .PUT,
-                                 .OPTIONS,
-                                 .DELETE,
-                                 .PATCH],
-                allowedHeaders: [
-                  .accept,
-                  .authorization,
-                  .contentType,
-                  .origin,
-                  .xRequestedWith,
-                  .userAgent,
-                  .accessControlAllowOrigin
-                ]
-              )
-        ),
-        at: .beginning
-    )
+//    app.middleware.use(
+//        CORSMiddleware(
+//            configuration: .init(
+//                allowedOrigin: .all,
+//                allowedMethods: [.GET,
+//                                 .POST,
+//                                 .PUT,
+//                                 .OPTIONS,
+//                                 .DELETE,
+//                                 .PATCH],
+//                allowedHeaders: [
+//                  .accept,
+//                  .authorization,
+//                  .contentType,
+//                  .origin,
+//                  .xRequestedWith,
+//                  .userAgent,
+//                  .accessControlAllowOrigin
+//                ]
+//              )
+//        ),
+//        at: .beginning
+//    )
 
     // register routes
     try routes(app)
