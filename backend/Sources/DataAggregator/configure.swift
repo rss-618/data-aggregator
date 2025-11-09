@@ -2,23 +2,25 @@ import NIOSSL
 import Fluent
 import FluentPostgresDriver
 import Vapor
+import JWT
 
 public func configure(_ app: Application) async throws {
+    
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
-    app.databases.use(
+    try app.databases.use(
         DatabaseConfigurationFactory.postgres(
             configuration: .init(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "password",
-        database: Environment.get("DATABASE_NAME") ?? "database",
-        tls: .prefer(try .init(configuration: .clientDefault)))
-    ),
+                hostname: Environment.require("DATABASE_HOST"),
+                port: Environment.require("DATABASE_PORT", to: Int.self),
+                username: Environment.require("DATABASE_USERNAME"),
+                password: Environment.require("DATABASE_PASSWORD"),
+                database: Environment.require("DATABASE_NAME"),
+                tls: .prefer(try .init(configuration: .clientDefault)))
+        ),
         as: .psql
     )
-
+    
     app.migrations.add(CreateDeviceTable(), to: .psql)
     app.migrations.add(CreateUserTable(), to: .psql)
     app.migrations.add(CreateProjectTable(), to: .psql)
@@ -26,32 +28,41 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateProjectUserPivotTable(), to: .psql)
     
     try await app.autoMigrate()
-
+    
+    // Auth
+    // Doesnt currently get used, because app cannot be passed into auth layers but it should always match
+    // encryption methods
+    app.passwords.use(Encryptor.provider)
+    try await app.jwt.keys.add(hmac: .init(stringLiteral: Environment.require("JWT_SECRET")),
+                               digestAlgorithm: .sha512)
+    
+    
     /* Setup CORS for external calls */
-//    app.middleware.use(
-//        CORSMiddleware(
-//            configuration: .init(
-//                allowedOrigin: .all,
-//                allowedMethods: [.GET,
-//                                 .POST,
-//                                 .PUT,
-//                                 .OPTIONS,
-//                                 .DELETE,
-//                                 .PATCH],
-//                allowedHeaders: [
-//                  .accept,
-//                  .authorization,
-//                  .contentType,
-//                  .origin,
-//                  .xRequestedWith,
-//                  .userAgent,
-//                  .accessControlAllowOrigin
-//                ]
-//              )
-//        ),
-//        at: .beginning
-//    )
-
+    //    app.middleware.use(
+    //        CORSMiddleware(
+    //            configuration: .init(
+    //                allowedOrigin: .all,
+    //                allowedMethods: [.GET,
+    //                                 .POST,
+    //                                 .PUT,
+    //                                 .OPTIONS,
+    //                                 .DELETE,
+    //                                 .PATCH],
+    //                allowedHeaders: [
+    //                  .accept,
+    //                  .authorization,
+    //                  .contentType,
+    //                  .origin,
+    //                  .xRequestedWith,
+    //                  .userAgent,
+    //                  .accessControlAllowOrigin
+    //                ]
+    //              )
+    //        ),
+    //        at: .beginning
+    //    )
+    
     // register routes
     try routes(app)
 }
+

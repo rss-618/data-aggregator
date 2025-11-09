@@ -4,7 +4,10 @@ import Vapor
 func routes(_ app: Application) throws {
     // React Controller
     try app.register(collection: ReactController(publicDirectory: app.directory.publicDirectory))
-    // Api Controllers
-    try app.register(collection: EventController())
-    try app.register(collection: ProjectController())
+    // Auth Controller
+    try app.register(collection: AuthenticationController())
+    // Protected
+    let protected = app.grouped(SessionToken.authenticator(), SessionToken.guardMiddleware())
+    try protected.register(collection: EventController())
+    try protected.register(collection: ProjectController())
 }

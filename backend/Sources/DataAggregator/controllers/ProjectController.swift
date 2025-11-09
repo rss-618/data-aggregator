@@ -8,6 +8,7 @@ struct ProjectController: RouteCollection {
         
     func boot(routes: any RoutesBuilder) throws {
         let events = routes.grouped("projects")
+            .grouped(SessionToken.guardMiddleware())
         
         events.get("all", use: getAll)
         events.post("add", use: add)

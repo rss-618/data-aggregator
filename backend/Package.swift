@@ -16,7 +16,10 @@ let package = Package(
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
         // Dependency Injection Library
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0")
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
+        // JWT
+        .package(url: "https://github.com/vapor/jwt.git", from: "5.1.2"),
+
     ],
     targets: [
         .executableTarget(
@@ -28,6 +31,7 @@ let package = Package(
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "JWT", package: "jwt"),
             ],
             swiftSettings: swiftSettings
         ),

@@ -6,8 +6,8 @@ struct CreateUserTable: AsyncMigration {
             .id()
             .field("username", .string, .required)
             .field("password", .string, .required)
-            .field("first_name", .string, .required)
-            .field("last_name", .string, .required)
+            .field("first_name", .string)
+            .field("last_name", .string)
             .field("created", .double)
             .create()
     }
