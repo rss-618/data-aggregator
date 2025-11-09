@@ -1,6 +1,7 @@
 import Fluent
 import Vapor
 
+// Will likely reverse proxy instead of doing this :shrug:
 struct ReactController: RouteCollection {
     
     let publicDirectory: String

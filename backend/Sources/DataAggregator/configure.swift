@@ -30,8 +30,6 @@ public func configure(_ app: Application) async throws {
     try await app.autoMigrate()
     
     // Auth
-    // Doesnt currently get used, because app cannot be passed into auth layers but it should always match
-    // encryption methods
     app.passwords.use(Encryptor.provider)
     try await app.jwt.keys.add(hmac: .init(stringLiteral: Environment.require("JWT_SECRET")),
                                digestAlgorithm: .sha512)
