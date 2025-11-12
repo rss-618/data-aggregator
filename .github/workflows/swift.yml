@@ -16,7 +16,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build and Run Tests
     - name: Run tests
       working-directory: ./backend
       run: |
