@@ -16,9 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Navigate to Directory
-      run: cd /backend
-    - name: Build
-      run: swift build -v
+    - name: Build and Run Tests
     - name: Run tests
-      run: swift test -v
+      working-directory: ./backend
+      run: swift build -v
+           swift test -v
