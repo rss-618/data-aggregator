@@ -19,5 +19,6 @@ jobs:
     - name: Build and Run Tests
     - name: Run tests
       working-directory: ./backend
-      run: swift build -v
-           swift test -v
+      run: |
+          swift build -v
+          swift test -v
