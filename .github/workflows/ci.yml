@@ -26,7 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
         working-directory: ./frontend
-
+      - name: Prettier Check
+        run: npm prettier . --check
+        working-directory: ./frontend
       - name: Lint
         run: npm run lint
         working-directory: ./frontend
