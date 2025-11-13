@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CoordinatorProvider } from './context/coordinator/CoordinatorProvider.tsx';
-import { PageRoute } from './features/navigation/PageRoute.tsx';
-import AuthenticatedLayout from './features/navigation/AuthenticatedLayout.tsx';
-import Home from './features/home/Home.tsx';
-import Login from './features/login/Login.tsx';
-import NotFound from './features/notFound/NotFound.tsx';
-import Unauthorized from './features/unauthorized/Unauthorized.tsx';
-import RootLayout from './features/navigation/RootLayout.tsx';
+import { PageRoute } from './components/navigation/PageRoute.tsx';
+import AuthenticatedLayout from './components/navigation/AuthenticatedLayout.tsx';
+import Home from './components/home/Home.tsx';
+import Login from './components/login/Login.tsx';
+import NotFound from './components/not-found/NotFound.tsx';
+import Unauthorized from './components/unauthorized/Unauthorized.tsx';
+import RootLayout from './components/navigation/RootLayout.tsx';
 
 export default function App() {
     return (

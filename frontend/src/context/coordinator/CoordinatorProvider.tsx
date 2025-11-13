@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PageRoute } from '../../features/navigation/PageRoute.tsx';
+import { PageRoute } from '../../components/navigation/PageRoute.tsx';
 import type { User } from '../../types/User.tsx';
 import { useSession } from '../session/useSession.tsx';
 import { CoordinatorContext } from './useCoordinator.tsx';

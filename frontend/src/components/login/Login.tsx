@@ -1,4 +1,4 @@
-import CustomInput from '../../components/customInput/CustomInput.tsx';
+import CustomInput from '../shared-ui/custom-input/CustomInput.tsx';
 import { useState } from 'react';
 import ProtectedRoute from '../navigation/ProtectedRoute.tsx';
 import { PageRoute } from '../navigation/PageRoute.tsx';

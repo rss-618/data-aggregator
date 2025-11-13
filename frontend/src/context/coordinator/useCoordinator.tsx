@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { PageRoute } from '../../features/navigation/PageRoute.tsx';
+import type { PageRoute } from '../../components/navigation/PageRoute.tsx';
 import type { User } from '../../types/User.tsx';
 
 export const useCoordinator = () => useContext(CoordinatorContext);
