@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 320 320" role="img" aria-label="8-bit abstract data">
+    <!-- palette -->
+    <defs>
+        <style>
+            .bg{fill:#07101a}
+            .p0{fill:#0bd9ff}   /* cyan */
+            .p1{fill:#7cff5b}   /* lime */
+            .p2{fill:#ffb86b}   /* orange */
+            .p3{fill:#ff5bb8}   /* magenta */
+            .p4{fill:#7b7fff}   /* violet */
+            .p5{fill:#ffd76b}   /* gold */
+            .grid{shape-rendering:crispEdges}
+            .muted{fill:#0f2130}
+        </style>
+    </defs>
+
+    <!-- background -->
+    <rect width="320" height="320" class="bg" />
+
+    <!-- helper: cell size = 20 -->
+    <!-- large muted base blocks to form "data field" -->
+    <g class="grid">
+        <rect x="20"  y="20"  width="260" height="120" class="muted"/>
+        <rect x="20"  y="160" width="180" height="140" class="muted"/>
+        <rect x="210" y="160" width="70"  height="80"  class="muted"/>
+    </g>
+
+    <!-- pixel grid elements: clusters, bars, nodes (each square = 20x20) -->
+    <g class="grid" transform="translate(0,0)">
+        <!-- left cluster -->
+        <rect x="40" y="40" width="20" height="20" class="p0"/>
+        <rect x="60" y="40" width="20" height="20" class="p0"/>
+        <rect x="40" y="60" width="20" height="20" class="p1"/>
+        <rect x="60" y="60" width="20" height="20" class="p2"/>
+        <rect x="80" y="40" width="20" height="20" class="p3"/>
+        <rect x="80" y="60" width="20" height="20" class="p0"/>
+
+        <!-- vertical data bars (middle) -->
+        <rect x="140" y="40" width="20" height="20" class="p4"/>
+        <rect x="140" y="60" width="20" height="20" class="p4"/>
+        <rect x="140" y="80" width="20" height="20" class="p4"/>
+        <rect x="160" y="80" width="20" height="20" class="p4"/>
+        <rect x="160" y="100" width="20" height="20" class="p4"/>
+        <rect x="180" y="100" width="20" height="20" class="p5"/>
+        <rect x="180" y="120" width="20" height="20" class="p5"/>
+
+        <!-- scattered bytes & connectors (right) -->
+        <rect x="220" y="40" width="20" height="20" class="p2"/>
+        <rect x="240" y="40" width="20" height="20" class="p2"/>
+        <rect x="260" y="40" width="20" height="20" class="p1"/>
+
+        <!-- tiny 2x2 "packets" -->
+        <rect x="220" y="80" width="20" height="20" class="p0"/>
+        <rect x="240" y="80" width="20" height="20" class="p0"/>
+        <rect x="220" y="100" width="20" height="20" class="p3"/>
+        <rect x="240" y="100" width="20" height="20" class="p3"/>
+
+        <!-- low-density trail -->
+        <rect x="100" y="140" width="20" height="20" class="p1"/>
+        <rect x="120" y="140" width="20" height="20" class="p1"/>
+        <rect x="140" y="140" width="20" height="20" class="p0"/>
+        <rect x="160" y="140" width="20" height="20" class="p2"/>
+        <rect x="180" y="140" width="20" height="20" class="p3"/>
+
+        <!-- stacked nodes (bottom-left) -->
+        <rect x="40" y="180" width="20" height="20" class="p4"/>
+        <rect x="40" y="200" width="20" height="20" class="p4"/>
+        <rect x="60" y="200" width="20" height="20" class="p5"/>
+        <rect x="80" y="200" width="20" height="20" class="p5"/>
+        <rect x="100" y="200" width="20" height="20" class="p0"/>
+
+        <!-- row of small bytes (bottom center) -->
+        <rect x="140" y="200" width="20" height="20" class="p2"/>
+        <rect x="160" y="200" width="20" height="20" class="p1"/>
+        <rect x="180" y="200" width="20" height="20" class="p0"/>
+        <rect x="200" y="200" width="20" height="20" class="p3"/>
+
+        <!-- right slab -->
+        <rect x="220" y="180" width="20" height="20" class="p5"/>
+        <rect x="240" y="180" width="20" height="20" class="p5"/>
+        <rect x="220" y="200" width="20" height="20" class="p4"/>
+        <rect x="240" y="200" width="20" height="20" class="p4"/>
+
+        <!-- tiny separators (1px gaps simulated by darker rects) -->
+        <rect x="20" y="20" width="20" height="20" class="muted"/>
+        <rect x="300" y="300" width="20" height="20" class="muted"/>
+    </g>
+
+    <!-- optional 'grid' pixel lines to emphasize 8-bit feel -->
+    <g opacity="0.06">
+        <!-- vertical lines -->
+        <g stroke="#ffffff" stroke-width="1" shape-rendering="crispEdges">
+            <line x1="20" y1="0" x2="20" y2="320"/>
+            <line x1="40" y1="0" x2="40" y2="320"/>
+            <line x1="60" y1="0" x2="60" y2="320"/>
+            <line x1="80" y1="0" x2="80" y2="320"/>
+            <line x1="100" y1="0" x2="100" y2="320"/>
+            <line x1="120" y1="0" x2="120" y2="320"/>
+            <line x1="140" y1="0" x2="140" y2="320"/>
+            <line x1="160" y1="0" x2="160" y2="320"/>
+            <line x1="180" y1="0" x2="180" y2="320"/>
+            <line x1="200" y1="0" x2="200" y2="320"/>
+            <line x1="220" y1="0" x2="220" y2="320"/>
+            <line x1="240" y1="0" x2="240" y2="320"/>
+            <line x1="260" y1="0" x2="260" y2="320"/>
+            <line x1="280" y1="0" x2="280" y2="320"/>
+            <line x1="300" y1="0" x2="300" y2="320"/>
+        </g>
+        <!-- horizontal lines -->
+        <g stroke="#ffffff" stroke-width="1" shape-rendering="crispEdges">
+            <line x1="0" y1="20" x2="320" y2="20"/>
+            <line x1="0" y1="40" x2="320" y2="40"/>
+            <line x1="0" y1="60" x2="320" y2="60"/>
+            <line x1="0" y1="80" x2="320" y2="80"/>
+            <line x1="0" y1="100" x2="320" y2="100"/>
+            <line x1="0" y1="120" x2="320" y2="120"/>
+            <line x1="0" y1="140" x2="320" y2="140"/>
+            <line x1="0" y1="160" x2="320" y2="160"/>
+            <line x1="0" y1="180" x2="320" y2="180"/>
+            <line x1="0" y1="200" x2="320" y2="200"/>
+            <line x1="0" y1="220" x2="320" y2="220"/>
+            <line x1="0" y1="240" x2="320" y2="240"/>
+            <line x1="0" y1="260" x2="320" y2="260"/>
+            <line x1="0" y1="280" x2="320" y2="280"/>
+            <line x1="0" y1="300" x2="320" y2="300"/>
+        </g>
+    </g>
+</svg>

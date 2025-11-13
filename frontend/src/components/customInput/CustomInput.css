@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+.card-background {
+    background-color: var(--color-light);
+    border-color: var(--color-vonCount);
+    color: var(--color-aro);
+    border-radius: 10px;
+    border-width: 2px;
+    padding: 8px;
+}
+
+.card-background:focus {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
