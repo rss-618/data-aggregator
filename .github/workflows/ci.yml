@@ -14,11 +14,9 @@ jobs:
     strategy:
       matrix:
         node-version: [24.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
-    
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -26,9 +24,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
         working-directory: ./frontend
+
       - name: Prettier Check
-        run: npm prettier . --check
+        run: npm prettier-check
         working-directory: ./frontend
+
       - name: Lint
         run: npm run lint
         working-directory: ./frontend
@@ -37,7 +37,6 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-    #TODO get tests setup
 
   test-backend:
 
@@ -49,8 +48,6 @@ jobs:
     - name: Build
       working-directory: ./backend
       run: swift build -v
-
-    #TODO get swiftlint setup
 
     - name: Test
       working-directory: ./backend
