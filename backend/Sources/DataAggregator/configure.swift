@@ -21,6 +21,7 @@ public func configure(_ app: Application) async throws {
         as: .psql
     )
     
+    app.migrations.add(CreateBlacklistedTokenTable(), to: .psql)
     app.migrations.add(CreateDeviceTable(), to: .psql)
     app.migrations.add(CreateUserTable(), to: .psql)
     app.migrations.add(CreateProjectTable(), to: .psql)

@@ -1,5 +1,6 @@
 import Vapor
 
 struct ClientTokenResponse: Content {
-    var token: String
+    var accessToken: String
+    var refreshToken: String
 }

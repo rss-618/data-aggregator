@@ -1,12 +1,8 @@
 import CustomInput from '../shared-ui/custom-input/CustomInput.tsx';
 import { useState } from 'react';
-import ProtectedRoute from '../navigation/ProtectedRoute.tsx';
-import { PageRoute } from '../navigation/PageRoute.tsx';
-import { useAuth } from '../../context/auth/useAuth.tsx';
 import { useCoordinator } from '../../context/coordinator/useCoordinator.tsx';
 
 export default function Login() {
-    const auth = useAuth();
     const coordinator = useCoordinator();
 
     const [username, setUsername] = useState<string>('');

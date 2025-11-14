@@ -1,5 +1,6 @@
 import Fluent
 import Vapor
+import JWT
 
 func routes(_ app: Application) throws {
     // React Controller
@@ -7,7 +8,8 @@ func routes(_ app: Application) throws {
     // Auth Controller
     try app.register(collection: AuthenticationController())
     // Protected
-    let protected = app.grouped(SessionToken.authenticator(), SessionToken.guardMiddleware())
+    let protected = app.grouped(TokenAuthenticator(type: .access), JWTToken.guardMiddleware())
     try protected.register(collection: EventController())
     try protected.register(collection: ProjectController())
 }
+
