@@ -19,19 +19,14 @@ export default function Login() {
         });
     };
     return (
-        <ProtectedRoute
-            redirectPath={PageRoute.Home}
-            isAllowed={() => !auth.isAuthenticated}
-        >
-            <div className="flex flex-col space-x-1 content-center">
-                <h1>I'm a login page WANAGI EATS BUTT</h1>
+        <div className="flex flex-col space-x-1 content-center">
+            <h1>I'm a login page WANAGI EATS BUTT</h1>
 
-                <div className="flex flex-col space-y-[8px]">
-                    <CustomInput title="Username" onChange={setUsername} />
-                    <CustomInput title="Password" onChange={setPassword} />
-                </div>
-                <button onClick={login}>logine</button>
+            <div className="flex flex-col space-y-[8px]">
+                <CustomInput title="Username" onChange={setUsername} />
+                <CustomInput title="Password" onChange={setPassword} />
             </div>
-        </ProtectedRoute>
+            <button onClick={login}>logine</button>
+        </div>
     );
 }
