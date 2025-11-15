@@ -14,47 +14,47 @@ export default function App() {
     const auth = useAuth();
 
     return (
-        <RootLayout>
-            <BrowserRouter>
-                <CoordinatorProvider>
-                    <Routes>
-                        {/* Protected */}
-                        {/* Authenticated - Only */}
-                        <Route
-                            path={PageRoute.Home}
-                            element={
-                                <ProtectedRoute
-                                    isAllowed={() => auth.isAuthenticated}
-                                    redirectPath={PageRoute.Login}
-                                    children={<DashboardLayout />}
-                                />
-                            }
-                        >
-                            <Route path={PageRoute.Home} element={<Home />} />
-                            <Route
-                                path={PageRoute.NotFound}
-                                element={<NotFound />}
+        <BrowserRouter>
+            <CoordinatorProvider>
+                <Routes>
+                    {/* Protected */}
+                    {/* Authenticated - Only */}
+                    <Route
+                        path={PageRoute.Home}
+                        element={
+                            <ProtectedRoute
+                                isAllowed={() => auth.isAuthenticated}
+                                redirectPath={PageRoute.Login}
+                                children={<DashboardLayout />}
                             />
-                            <Route
-                                path={PageRoute.Unauthorized}
-                                element={<Unauthorized />}
-                            />
-                        </Route>
-                        {/* Unauthenticated - Only */}
+                        }
+                    >
+                        <Route path={PageRoute.Home} element={<Home />} />
                         <Route
-                            path={PageRoute.Login}
-                            element={
-                                <ProtectedRoute
-                                    redirectPath={PageRoute.Home}
-                                    isAllowed={() => !auth.isAuthenticated}
-                                >
-                                    <Login />
-                                </ProtectedRoute>
-                            }
+                            path={PageRoute.NotFound}
+                            element={<NotFound />}
                         />
-                    </Routes>
-                </CoordinatorProvider>
-            </BrowserRouter>
-        </RootLayout>
+                        <Route
+                            path={PageRoute.Unauthorized}
+                            element={<Unauthorized />}
+                        />
+                    </Route>
+                    {/* Unauthenticated - Only */}
+                    <Route
+                        path={PageRoute.Login}
+                        element={
+                            <ProtectedRoute
+                                redirectPath={PageRoute.Home}
+                                isAllowed={() => !auth.isAuthenticated}
+                            >
+                                <RootLayout>
+                                    <Login />
+                                </RootLayout>
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </CoordinatorProvider>
+        </BrowserRouter>
     );
 }

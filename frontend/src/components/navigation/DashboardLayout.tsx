@@ -3,16 +3,15 @@ import { PageRoute } from './PageRoute.tsx';
 import { useCoordinator } from '../../context/coordinator/useCoordinator.tsx';
 import classnames from '../../utilities/classnames.tsx';
 import { useState } from 'react';
+import RootLayout from './RootLayout.tsx';
 
 export default function DashboardLayout() {
     return (
-        <div className="grow flex">
-            <div className="grow flex flex-row">
-                <div className="grow flex justify-center">
-                    <Outlet />
-                </div>
-                <NavBar />
-            </div>
+        <div className="flex flex-row justify-center w-screen">
+            <RootLayout>
+                <Outlet />
+            </RootLayout>
+            <NavBar />
         </div>
     );
 }
@@ -21,7 +20,7 @@ function NavBar() {
     const coordinator = useCoordinator();
     const location = useLocation();
 
-    const [isNavOpen, setIsNavOpen] = useState(true);
+    const [isNavOpen, setIsNavOpen] = useState(screen.width > 768); // TODO: make a constants file for screen widths n what not
 
     const isHighlighted = (route: PageRoute) => {
         return route === location.pathname;
@@ -34,39 +33,43 @@ function NavBar() {
     const navbarClassnames = classnames(
         'transition-all duration-250 ease-in-out',
         isNavOpen ? 'translate-x-0 visible' : 'translate-x-full hidden',
-        'flex flex-col y-full space-y-2 p-3 bg-dark rounded-md'
+        'flex flex-col space-y-2 p-3 bg-dark rounded-md'
     );
 
     const expandButton = () => {
         return (
             <button
-                className={classnames('text-3xl')}
+                className="text-5xl hover:bg-gray-700/50 active:bg-gray-800/50 rounded-4xl p-2"
                 onClick={() => setIsNavOpen(!isNavOpen)}
             >
-                &lt;
+                &#8942;
             </button>
         );
     };
 
     return (
-        <div className="y-full flex flex-row space-x-1 align-middle">
-            {expandButton()}
-            <div className={navbarClassnames}>
-                <NavButton
-                    title="Home"
-                    highlighted={isHighlighted(PageRoute.Home)}
-                    action={() => navigate(PageRoute.Home)}
-                />
+        <aside className="fixed end-0 flex h-screen items-center">
+            <div className="flex h-1/2 flex-row space-x-1 ">
+                <div className="flex flex-col justify-center">
+                    {expandButton()}
+                </div>
+                <div className={navbarClassnames}>
+                    <NavButton
+                        title="Home"
+                        highlighted={isHighlighted(PageRoute.Home)}
+                        action={() => navigate(PageRoute.Home)}
+                    />
 
-                <div className="grow" />
+                    <div className="grow" />
 
-                <NavButton
-                    title="Logout"
-                    highlighted={false}
-                    action={() => coordinator.logout()}
-                />
+                    <NavButton
+                        title="Logout"
+                        highlighted={false}
+                        action={() => coordinator.logout()}
+                    />
+                </div>
             </div>
-        </div>
+        </aside>
     );
 }
 
