@@ -1,5 +1,5 @@
 
-# Daggregate
+# Daggregate [![Project CI](https://github.com/rss-618/data-aggregator/actions/workflows/ci.yml/badge.svg)](https://github.com/rss-618/data-aggregator/actions/workflows/ci.yml)
 
 Your own personal data-aggregator.
 Deploy your own data aggregation hub & link it with your client application(s).
