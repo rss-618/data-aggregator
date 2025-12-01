@@ -3,7 +3,10 @@ import Vapor
 import JWT
 import Foundation
 
-final class UserModel: Model, @unchecked Sendable, ModelCredentialsAuthenticatable {
+final class UserModel: Model,
+                       @unchecked Sendable,
+                       ModelCredentialsAuthenticatable,
+                       ModelSessionAuthenticatable {
     
     static let usernameKey: KeyPath<UserModel, Field<String>> = \.$username
     static let passwordHashKey: KeyPath<UserModel, Field<String>> = \.$passwordHash
@@ -27,7 +30,7 @@ final class UserModel: Model, @unchecked Sendable, ModelCredentialsAuthenticatab
     @Timestamp(key: "created", on: .create, format: .unix)
     var created: Date?
     @Siblings(
-        through: ProjectUserPivotTable.self,
+        through: ProjectUserPivotTableModel.self,
         from: \.$user,
         to: \.$project
     )
@@ -51,5 +54,25 @@ final class UserModel: Model, @unchecked Sendable, ModelCredentialsAuthenticatab
         self.lastName = lastName
         self.created = created
         self.$tables.value = tables
+    }
+}
+
+extension UserModel {
+    struct Migration: AsyncMigration {
+        func prepare(on database: any Database) async throws {
+            try await database.schema(UserModel.schema)
+                .id()
+                .field("username", .string, .required)
+                .unique(on: "username")
+                .field("password", .string, .required)
+                .field("first_name", .string)
+                .field("last_name", .string)
+                .field("created", .double)
+                .create()
+        }
+
+        func revert(on database: any Database) async throws {
+            try await database.schema(UserModel.schema).delete()
+        }
     }
 }

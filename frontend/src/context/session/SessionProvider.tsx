@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from 'react';
-import type { User } from '../../types/User.tsx';
+import type { UserType } from '../../types/User.type.tsx';
 import { SessionContext, type SessionModel } from './useSession.tsx';
 
 const cacheKey = 'SessionModel';
@@ -36,7 +36,7 @@ export function SessionProvider({ children }: AuthProviderProps) {
     };
     const value = {
         model: modelState,
-        setUser: (user: User | undefined) => {
+        setUser: (user: UserType | undefined) => {
             updateModel({
                 ...modelState,
                 user: user,

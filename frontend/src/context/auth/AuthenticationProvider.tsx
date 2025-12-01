@@ -10,6 +10,7 @@ export function AuthenticationProvider({
     children,
 }: AuthenticationProviderProps) {
     const session = useSession();
+    document.cookie.se;
 
     const isAuthenticated = () => {
         return session.model?.user !== undefined;
@@ -17,6 +18,8 @@ export function AuthenticationProvider({
 
     const values = {
         isAuthenticated: isAuthenticated(),
+        refreshToken: document,
+        accessToken: '',
     };
 
     return (

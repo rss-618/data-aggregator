@@ -1,13 +1,29 @@
 import NIOSSL
 import Fluent
 import FluentPostgresDriver
+import QueuesFluentDriver
 import Vapor
 import JWT
 
 public func configure(_ app: Application) async throws {
     
+    // MARK: Middleware
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
+    // MARK: Sessions
+    app.sessions.configuration.cookieName = "daggregator_session"
+    // TODO: make access expiration handled via env or something else
+    app.sessions.configuration.cookieFactory = { sessionID in
+            .init(
+                string: sessionID.string,
+                expires: .intervalFromNow(.days(7)),
+                isSecure: true,
+                isHTTPOnly: true
+            )
+    }
+    app.sessions.use(.fluent(.psql))
+    
+    // MARK: Database
     try app.databases.use(
         DatabaseConfigurationFactory.postgres(
             configuration: .init(
@@ -21,16 +37,27 @@ public func configure(_ app: Application) async throws {
         as: .psql
     )
     
-    app.migrations.add(CreateBlacklistedTokenTable(), to: .psql)
-    app.migrations.add(CreateDeviceTable(), to: .psql)
-    app.migrations.add(CreateUserTable(), to: .psql)
-    app.migrations.add(CreateProjectTable(), to: .psql)
-    app.migrations.add(CreateEventTable(), to: .psql)
-    app.migrations.add(CreateProjectUserPivotTable(), to: .psql)
+    app.migrations.add(SessionRecord.migration)
+    app.migrations.add(BlacklistedTokenModel.Migration(), to: .psql)
+    app.migrations.add(DeviceModel.Migration(), to: .psql)
+    app.migrations.add(UserModel.Migration(), to: .psql)
+    app.migrations.add(ProjectModel.Migration(), to: .psql)
+    app.migrations.add(EventModel.Migration(), to: .psql)
+    app.migrations.add(ProjectUserPivotTableModel.Migration(), to: .psql)
     
     try await app.autoMigrate()
     
-    // Auth
+    // MARK: Queues
+    app.queues.use(.fluent(preservesCompletedJobs: false))
+    
+    app.queues.schedule(SessionCleanupJob())
+        .daily()
+        .at(.midnight)
+    
+    
+    try app.queues.startScheduledJobs()
+    
+    // MARK: Auth
     app.passwords.use(Encryptor.provider)
     try await app.jwt.keys.add(hmac: .init(stringLiteral: Environment.require("JWT_SECRET")),
                                digestAlgorithm: .sha512)

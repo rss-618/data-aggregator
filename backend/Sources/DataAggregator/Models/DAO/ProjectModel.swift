@@ -3,7 +3,7 @@ import Foundation
 
 final class ProjectModel: Model, @unchecked Sendable {
     static let schema = "project"
-        
+    
     @ID(key: .id)
     var id: UUID?
     @Field(key: "name")
@@ -17,7 +17,7 @@ final class ProjectModel: Model, @unchecked Sendable {
     @Timestamp(key: "last_updated", on: .update, format: .unix)
     var lastUpdated: Date?
     @Siblings(
-        through: ProjectUserPivotTable.self,
+        through: ProjectUserPivotTableModel.self,
         from: \.$project,
         to: \.$user
     )
@@ -42,5 +42,23 @@ final class ProjectModel: Model, @unchecked Sendable {
         self.lastUpdated = lastUpdated
         self.$users.value = users
     }
-    
+}
+
+extension ProjectModel {
+    struct Migration: AsyncMigration {
+        func prepare(on database: any Database) async throws {
+            try await database.schema(ProjectModel.schema)
+                .id()
+                .field("name", .string, .required)
+                .field("description", .string, .required)
+                .field("project_type", .string, .required)
+                .field("created", .double)
+                .field("last_updated", .double)
+                .create()
+        }
+        
+        func revert(on database: any Database) async throws {
+            try await database.schema(ProjectModel.schema).delete()
+        }
+    }
 }

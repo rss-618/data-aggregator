@@ -1,14 +1,14 @@
 import { createContext, useContext } from 'react';
-import type { User } from '../../types/User.tsx';
+import type { UserType } from '../../types/User.type.tsx';
 
 export const useSession = () => useContext(SessionContext);
 export type SessionContextType = {
     model?: SessionModel;
-    setUser: (user: User | undefined) => void;
+    setUser: (user: UserType | undefined) => void;
 };
 
 export type SessionModel = {
-    user?: User;
+    user?: UserType;
 };
 
 export const SessionContext = createContext<SessionContextType>({

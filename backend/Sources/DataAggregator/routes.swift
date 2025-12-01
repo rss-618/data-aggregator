@@ -3,13 +3,20 @@ import Vapor
 import JWT
 
 func routes(_ app: Application) throws {
-    // React Controller
-    try app.register(collection: ReactController(publicDirectory: app.directory.publicDirectory))
+    // MARK: Sessioned
+    let sessioned = app.grouped(app.sessions.middleware, UserModel.sessionAuthenticator())
     // Auth Controller
-    try app.register(collection: AuthenticationController())
-    // Protected
-    let protected = app.grouped(TokenAuthenticator(type: .access), JWTToken.guardMiddleware())
-    try protected.register(collection: EventController())
-    try protected.register(collection: ProjectController())
+    try sessioned.register(collection: SessionedAuthenticationController())
+    // Protected Frontend
+    let protectedFrontend = sessioned.grouped(
+        UserModel.guardMiddleware()
+    )
+    try protectedFrontend.register(collection: EventController())
+    try protectedFrontend.register(collection: ProjectController())
+    
+    // MARK: Sessionless
+//    let sessionless = app
+    
+
 }
 

@@ -10,7 +10,7 @@ struct TokenAuthenticator: JWTAuthenticator {
     func authenticate(jwt: JWTToken, for request: Request) async throws {
         request.auth.login(jwt)
 
-        guard try await BlacklistedToken
+        guard try await BlacklistedTokenModel
             .query(on: request.db)
             .filter(\.$tokenId == jwt.id)
             .first() == nil else {
@@ -22,4 +22,3 @@ struct TokenAuthenticator: JWTAuthenticator {
     }
     
 }
-

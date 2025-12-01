@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PageRoute } from '../../components/navigation/PageRoute.tsx';
-import type { User } from '../../types/User.tsx';
+import type { UserType } from '../../types/User.type.tsx';
 import { useSession } from '../session/useSession.tsx';
 import { CoordinatorContext } from './useCoordinator.tsx';
 
@@ -17,7 +17,7 @@ export function CoordinatorProvider({ children }: CoordinatorProviderProps) {
         navigateTo: (page: PageRoute) => {
             navigate(page);
         },
-        login: (user: User) => {
+        login: (user: UserType) => {
             session.setUser(user);
             navigate(PageRoute.Home);
             console.log('login');
