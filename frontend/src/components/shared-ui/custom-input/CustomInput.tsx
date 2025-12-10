@@ -1,22 +1,21 @@
-import type { ChangeEvent } from 'react';
+import { type InputHTMLAttributes, type KeyboardEventHandler } from 'react';
 import './CustomInput.css';
 
-type InputProps = {
-    title: string;
-    onChange: (value: string) => void;
-    onFocus?: () => void;
-};
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    onEnter?: () => void;
+}
 
-export default function CustomInput({ title, onChange, onFocus }: InputProps) {
-    const inputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
+export default function CustomInput({ onEnter, ...others }: InputProps) {
+    const keyPressHandler: KeyboardEventHandler = (e) => {
+        if (onEnter && e.key == 'Enter') {
+            onEnter();
+        }
     };
     return (
         <input
             className="card-background"
-            placeholder={title}
-            onChange={inputChange}
-            onFocus={onFocus}
+            {...others}
+            onKeyDown={keyPressHandler}
         />
     );
 }

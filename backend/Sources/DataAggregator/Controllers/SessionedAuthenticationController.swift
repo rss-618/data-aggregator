@@ -15,7 +15,7 @@ struct SessionedAuthenticationController: RouteCollection {
         
         auth.get("logout") { req in
             logout(req)
-            return Response(status: .ok)
+            return Response(status: .noContent)
         }
         
         auth
@@ -46,11 +46,11 @@ struct SessionedAuthenticationController: RouteCollection {
     }
     
     func logout(_ request: Request) {
+        request.session.destroy()
         guard request.session.authenticated(UserModel.self) != nil else {
             return
         }
         request.auth.logout(UserModel.self)
-        request.session.destroy()
     }
     
     // TODO: Move this to a sessionless controller

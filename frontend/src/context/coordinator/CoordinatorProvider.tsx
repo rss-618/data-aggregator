@@ -38,7 +38,8 @@ export function CoordinatorProvider({ children }: CoordinatorProviderProps) {
             navigate(PageRoute.Login);
             // Ensure cookies are deleted no matter what.
             ApiClient.logout()
-                .then()
+                .then((value) => value)
+                .catch() // Do nothing
                 .finally(() => {
                     cookieUtility.clearSessionId().then();
                 });

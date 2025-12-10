@@ -35,12 +35,19 @@ export default function Login() {
             <div className="flex flex-col space-y-[8px]">
                 <CustomInput
                     title="Username"
-                    onChange={setUsername}
+                    value={username}
+                    onChange={(event) => {
+                        setUsername(event.target.value);
+                    }}
                     onFocus={onFocus}
                 />
                 <CustomInput
                     title="Password"
-                    onChange={setPassword}
+                    value={password}
+                    onChange={(event) => {
+                        setPassword(event.target.value);
+                    }}
+                    onEnter={login}
                     onFocus={onFocus}
                 />
             </div>

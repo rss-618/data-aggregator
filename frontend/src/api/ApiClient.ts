@@ -4,27 +4,27 @@ import type { User } from '../types/auth/User.type.ts';
 import HttpError from '../types/utility/HttpError.type.ts';
 import { logoutPublisher } from '../context/coordinator/logoutPublisher.ts';
 
+// TODO: Make header builder
 const headers: Record<string, string> = {
     'content-type': 'application/json',
 };
 
 export const ApiClient = {
     login: async function (request: LoginRequest): Promise<User> {
-        return apiFetch('/auth/login', {
+        return callHandler('/auth/login', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(request),
         });
     },
     logout: async function (): Promise<void> {
-        return await apiFetch('/auth/logout', {
+        return await emptyResponseCallHandler('/auth/logout', {
             method: 'GET',
-            headers: headers,
         });
     },
 };
 
-async function apiFetch<ResponseType>(
+async function callHandler<ResponseType>(
     input: RequestInfo | URL,
     init?: RequestInit
 ): Promise<ResponseType> {
@@ -42,8 +42,22 @@ async function apiFetch<ResponseType>(
     }
 }
 
+async function emptyResponseCallHandler(
+    input: RequestInfo | URL,
+    init?: RequestInit
+): Promise<void> {
+    try {
+        return await callHandler(input, init);
+    } catch (error: HttpError | unknown) {
+        if (error instanceof HttpError && error.statusCode == 204) {
+            return;
+        }
+        throw error;
+    }
+}
+
 function checkResponse(response: Response) {
-    if (!response.ok) {
+    if (!response.ok || response.status === 204) {
         throw new HttpError(response.statusText, response.status);
     }
 }
