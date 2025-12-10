@@ -64,29 +64,29 @@ public func configure(_ app: Application) async throws {
     
     
     /* Setup CORS for external calls */
-    //    app.middleware.use(
-    //        CORSMiddleware(
-    //            configuration: .init(
-    //                allowedOrigin: .all,
-    //                allowedMethods: [.GET,
-    //                                 .POST,
-    //                                 .PUT,
-    //                                 .OPTIONS,
-    //                                 .DELETE,
-    //                                 .PATCH],
-    //                allowedHeaders: [
-    //                  .accept,
-    //                  .authorization,
-    //                  .contentType,
-    //                  .origin,
-    //                  .xRequestedWith,
-    //                  .userAgent,
-    //                  .accessControlAllowOrigin
-    //                ]
-    //              )
-    //        ),
-    //        at: .beginning
-    //    )
+    app.middleware.use(
+        CORSMiddleware(
+            configuration: .init(
+                allowedOrigin: .custom("http://localhost:5173"), // needs to be configurable
+                allowedMethods: [.GET,
+                                 .POST,
+                                 .PUT,
+                                 .OPTIONS,
+                                 .DELETE,
+                                 .PATCH],
+                allowedHeaders: [
+                    .accept,
+                    .authorization,
+                    .contentType,
+                    .origin,
+                    .xRequestedWith,
+                    .userAgent,
+                    .accessControlAllowOrigin
+                ]
+            )
+        ),
+        at: .beginning
+    )
     
     // register routes
     try routes(app)

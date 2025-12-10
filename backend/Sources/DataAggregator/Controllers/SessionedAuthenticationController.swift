@@ -6,6 +6,10 @@ struct SessionedAuthenticationController: RouteCollection {
     
     static let group: PathComponent = "auth"
     
+    enum AuthError: Error {
+        case userNotFound
+    }
+    
     func boot(routes: any RoutesBuilder) throws {
         let auth = routes.grouped(Self.group)
         
@@ -18,13 +22,17 @@ struct SessionedAuthenticationController: RouteCollection {
             .grouped(
                 UserModel.credentialsAuthenticator(),
             )
-            .get("login") { req in
+            .post("login") { req in
                 let user = try req.auth.require(UserModel.self)
                 logout(req)
                 req.session.authenticate(user)
                 // TODO: Make refresh expiration settable through other means. I dont like where this currently is.
                 req.session.data.expiration = .intervalFromNow(.days(30))
-                return Response(status: .ok)
+
+                guard let dbModel = try await UserModel.query(on: req.db).filter(\.$username == user.username).first() else {
+                    throw AuthError.userNotFound
+                }
+                return UserResponse(dbModel)
             }
         
         auth.post("register") { req in

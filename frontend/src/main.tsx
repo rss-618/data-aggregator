@@ -3,17 +3,17 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { SessionProvider } from './context/session/SessionProvider.tsx';
-import { AuthenticationProvider } from './context/auth/AuthenticationProvider.tsx';
-import { ApiClientProvider } from './context/api/ApiClientProvider.tsx';
+import { BrowserRouter } from 'react-router-dom';
+import { CoordinatorProvider } from './context/coordinator/CoordinatorProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <SessionProvider>
-            <AuthenticationProvider>
-                <ApiClientProvider>
+        <BrowserRouter>
+            <SessionProvider>
+                <CoordinatorProvider>
                     <App />
-                </ApiClientProvider>
-            </AuthenticationProvider>
-        </SessionProvider>
+                </CoordinatorProvider>
+            </SessionProvider>
+        </BrowserRouter>
     </StrictMode>
 );

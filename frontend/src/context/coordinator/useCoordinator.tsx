@@ -1,12 +1,12 @@
 import { createContext, useContext } from 'react';
 import type { PageRoute } from '../../components/navigation/PageRoute.tsx';
-import type { UserType } from '../../types/User.type.tsx';
+import type { User } from '../../types/auth/User.type.ts';
 
 export const useCoordinator = () => useContext(CoordinatorContext);
 
 type CoordinatorContextType = {
     navigateTo: (page: PageRoute) => void;
-    login: (user: UserType) => void; // TODO: Pass JWT token instead
+    login: (user: User) => void;
     logout: () => void;
 };
 

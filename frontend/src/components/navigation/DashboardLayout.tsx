@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { PageRoute } from './PageRoute.tsx';
 import { useCoordinator } from '../../context/coordinator/useCoordinator.tsx';
-import classnames from '../../utilities/classnames.tsx';
+import classnames from '../../utilities/classnames.ts';
 import { useState } from 'react';
 import RootLayout from './RootLayout.tsx';
 
