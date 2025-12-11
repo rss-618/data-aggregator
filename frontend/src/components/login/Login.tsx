@@ -2,20 +2,55 @@ import CustomInput from '../shared-ui/custom-input/CustomInput.tsx';
 import { useState } from 'react';
 import { useCoordinator } from '../../context/coordinator/useCoordinator.tsx';
 import { LoadingStage } from '../../types/utility/LoadingStage.type.ts';
-import classnames from '../../utilities/classnames.ts';
 import { ApiClient } from '../../api/ApiClient.ts';
+import LoginButton from './components/LoginButton.tsx';
+import Localizable from '../../resources/Localizable.ts';
 
 export default function Login() {
     const coordinator = useCoordinator();
 
+    // TODO: make a reducer this is kinda annoying to look at
     const [loginStage, setLoginStage] = useState<LoadingStage>();
 
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
+    const [usernameErrorText, setUsernameErrorText] = useState<string>('');
+    const [passwordErrorText, setPasswordErrorText] = useState<string>('');
+
+    const clearErrors = () => {
+        setLoginStage(LoadingStage.IDLE);
+        setUsernameErrorText('');
+        setUsernameErrorText('');
+    };
+
+    const validateInputs = () => {
+        if (username.length == 0) {
+            setUsernameErrorText(Localizable.usernameEmptyError);
+        }
+
+        if (password.length == 0) {
+            setPasswordErrorText(Localizable.passwordEmptyError);
+        }
+    };
+
+    const hasValidInputs = () => {
+        return username.length > 0 && password.length > 0;
+    };
+
     const login = async () => {
+        if (loginStage === LoadingStage.LOADING) {
+            return;
+        }
+        clearErrors();
+        setLoginStage(LoadingStage.LOADING);
+        validateInputs();
+        if (!hasValidInputs()) {
+            setLoginStage(LoadingStage.ERROR);
+            return;
+        }
+
         try {
-            setLoginStage(LoadingStage.LOADING);
             const user = await ApiClient.login({ username, password });
             coordinator.login(user);
         } catch {
@@ -23,37 +58,40 @@ export default function Login() {
         }
     };
 
-    const onFocus = () => {
-        setLoginStage(LoadingStage.IDLE);
-    };
-
-    const classNames = classnames();
     return (
-        <div className="flex flex-col space-x-1 content-center">
-            <h1>I'm a login page WANAGI EATS BUTT</h1>
+        <div className="flex flex-col space-y-3 content-center">
+            <div className={'flex flex-col space-y-1'}>
+                <h1>{Localizable.welcomeTitle}</h1>
+                <p>{Localizable.pleaseEnterCredentials} &#128539;</p>
+            </div>
 
             <div className="flex flex-col space-y-[8px]">
                 <CustomInput
-                    title="Username"
+                    placeholder="Username"
                     value={username}
                     onChange={(event) => {
                         setUsername(event.target.value);
                     }}
-                    onFocus={onFocus}
+                    onFocus={() => setUsernameErrorText('')}
+                    errorText={usernameErrorText}
                 />
                 <CustomInput
-                    title="Password"
+                    placeholder="Password"
                     value={password}
                     onChange={(event) => {
                         setPassword(event.target.value);
                     }}
                     onEnter={login}
-                    onFocus={onFocus}
+                    onFocus={() => setPasswordErrorText('')}
+                    errorText={passwordErrorText}
                 />
             </div>
-            <button onClick={login} className={classNames}>
-                logine
-            </button>
+            <div className={'flex justify-center'}>
+                <LoginButton
+                    onClick={login}
+                    disabled={loginStage === LoadingStage.LOADING}
+                />
+            </div>
         </div>
     );
 }

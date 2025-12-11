@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-.card-background {
+.input {
     background-color: var(--color-light);
     border-color: var(--color-vonCount);
     color: var(--color-aro);
@@ -9,7 +9,12 @@
     padding: 8px;
 }
 
-.card-background:focus {
+.error {
+    border-color: var(--color-red) !important;
+    color: var(--color-red) !important;
+}
+
+.input:focus {
     border-color: var(--color-blue);
     color: var(--color-blue);
 }

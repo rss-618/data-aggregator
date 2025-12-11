@@ -56,7 +56,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     };
 
     return (
-        <main className="flex justify-center justify-items-center overflow-x-clip max-w-screen">
+        <main className="flex justify-center justify-items-center overflow-x-clip max-w-screen px-4 sm:px-0">
             <div className="flex flex-col w-screen min-h-screen container">
                 {header()}
                 <div className="grow flex justify-center">{children}</div>
